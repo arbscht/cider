@@ -110,7 +110,8 @@ version from the CIDER package or library.")
 
 (defcustom cider-boot-command
   (or (executable-find "boot")
-      (executable-find "boot.sh"))
+      (executable-find "boot.sh")
+      "boot")
   "The command used to execute Boot."
   :type 'string
   :group 'cider
@@ -662,25 +663,28 @@ choose."
   "Check if `cider-lein-command' is on the `exec-path'.
 
 In case `default-directory' is non-local we assume the command is available."
-  (or (file-remote-p default-directory)
-      (executable-find cider-lein-command)
-      (executable-find (concat cider-lein-command ".bat"))))
+  (when cider-lein-command
+    (or (file-remote-p default-directory)
+        (executable-find cider-lein-command)
+        (executable-find (concat cider-lein-command ".bat")))))
 
 (defun cider--boot-present-p ()
   "Check if `cider-boot-command' is on the `exec-path'.
 
 In case `default-directory' is non-local we assume the command is available."
-  (or (file-remote-p default-directory)
-      (executable-find cider-boot-command)
-      (executable-find (concat cider-boot-command ".exe"))))
+  (when cider-boot-command
+    (or (file-remote-p default-directory)
+        (executable-find cider-boot-command)
+        (executable-find (concat cider-boot-command ".exe")))))
 
 (defun cider--gradle-present-p ()
   "Check if `cider-gradle-command' is on the `exec-path'.
 
 In case `default-directory' is non-local we assume the command is available."
-  (or (file-remote-p default-directory)
-      (executable-find cider-gradle-command)
-      (executable-find (concat cider-gradle-command ".exe"))))
+  (when cider-gradle-command
+    (or (file-remote-p default-directory)
+        (executable-find cider-gradle-command)
+        (executable-find (concat cider-gradle-command ".exe")))))
 
 
 ;;; Check that the connection is working well
